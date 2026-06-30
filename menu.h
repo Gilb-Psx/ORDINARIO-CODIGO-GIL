@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-// Aqui solo tengo los printf de las pantallas de opciones para que el main no quede gigante
 int menuPrincipal(void){
     int op;
     printf("\n---MENU---\n");
