@@ -15,7 +15,7 @@ int menuPrincipal(void){
 
 int menuAltas(void){
     int opc;
-    printf("\n---MENU ALTAS---\n");
+    printf("\n---MENU DE ALTAS---\n");
     printf("[1].Dar de alta a una persona\n");
     printf("[2].Dar de alta a varias personas\n");
     printf("[3].Regresar al menú\n");
@@ -26,7 +26,7 @@ int menuAltas(void){
 
 int menuBajas(void){
     int op;
-    printf("\n---MENU BAJAS---\n");
+    printf("\n---MENU DE BAJAS---\n");
     printf("[1].Dar de baja a una persona\n");
     printf("[2].Dar de baja a varias personas\n");
     printf("[3].Dar de baja a todos\n");
@@ -35,14 +35,17 @@ int menuBajas(void){
     scanf("%d",&op);
     return op;
 }
+
 int menuMostrar(void){
     int op;
-    printf("\n---MENU MOSTRAR---\n");
+    printf("\n---MENU PARA MOSTRAR---\n");
     printf("[1].Todas las personas\n");
     printf("[2].Por carrera\n");
     printf("[3].Por semestre\n");
-    printf("[4].Por Carrera y semestre\n");
-    printf("[5].Regresar\n");
+    printf("[4].Por carrera y semestre\n");
+    printf("[5].Buscar por nombre\n");
+    printf("[6].Buscar por matricula\n");
+    printf("[7].Regresar\n");
     printf("Elije una operacion a realizar: \n");
     scanf("%d",&op);
     return op;
