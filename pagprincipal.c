@@ -1,14 +1,14 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-// Mis estructuras fijas para el programa
+// Mis estructuras para guardar los datos
 struct Persona{
     char *nombre;
     int edad;
     char genero;
     char fn[8];
     struct Alumno *ptrAlum;
-    struct Persona *ptrSig; // El enlace al siguiente de la lista
+    struct Persona *ptrSig; // Puntero para conectar con el siguiente nodo
 };
 
 struct Alumno{
@@ -16,7 +16,7 @@ struct Alumno{
     char carrera[5];
     char semestre;
     char correo[23];
-    float calif [5][5]; // Matriz: 5 materias y 5 columnas (P1, P2, P3, Ord y Promedio)
+    float calif [5][5]; // Matriz de 5 materias y 5 columnas para las notas
 };
 #endif
 
@@ -30,30 +30,30 @@ struct Alumno{
 
 int main(){
     int op, op2, op3, opMostrar;
-    struct Persona *ptr = NULL; // Mi puntero inicializador de la lista (empieza vacio)
+    struct Persona *ptr = NULL; // El inicio de mi lista empieza vacio
 
     do {
-        op = menuPrincipal(); // Capturo la eleccion del menu grande
+        op = menuPrincipal(); // Guardo la opcion del menu principal
         switch (op) {
             case 1: 
                 do {
                     op2 = menuAltas();
                     switch (op2) {
-                        case 1: Altas(&ptr); break; // Alta individual
-                        case 2: AltasVarias(&ptr); break; // Alta continua e interactiva
+                        case 1: Altas(&ptr); break; // Alta de uno solo
+                        case 2: AltasVarias(&ptr); break; // Alta de varios seguidos
                         case 3: printf("\nRegresando... \n"); break;
                         default: printf("opcion invalida");
                     }
-                } while(op2 != 3); // Ciclo del submenu de altas
+                } while(op2 != 3); // Cierra el submenu de altas
                 break;
 
             case 2: 
                 do {
                     op3 = menuBajas();
                     switch (op3) {
-                        case 1: bajas(&ptr); break; // Borra el primero de la lista
-                        case 2: Bajasamas(&ptr); break; // Borra interactivo hasta que el usuario diga no
-                        case 3: BajasTodos(&ptr); break; // Limpia toda la memoria de golpe
+                        case 1: bajas(&ptr); break; // Quita el primero de la lista
+                        case 2: Bajasamas(&ptr); break; // Quita varios preguntando
+                        case 3: BajasTodos(&ptr); break; // Borra toda la lista completa
                         case 4: printf("Regreso\n"); break;
                         default: printf("opcion invalida");
                     }
@@ -77,12 +77,12 @@ int main(){
                 break;
 
             case 4: 
-                menuFuncionesEspeciales(ptr); // Abre el modulo de reportes y modificaciones
+                menuFuncionesEspeciales(ptr); // Abre el menu de reportes y cambios
                 break;
 
             case 5: 
                 printf("\nLiberando memoria...\n");
-                BajasTodos(&ptr); // Por seguridad limpio la memoria antes de cerrar el exe
+                BajasTodos(&ptr); // Limpio todo antes de cerrar para que no se quede trabado
                 printf("Fin del programa.\n");
                 break;
 
@@ -90,7 +90,7 @@ int main(){
                 printf("opcion invalida");
                 break;
         }
-    } while(op != 5); // El programa corre hasta que elijan la opcion 5
+    } while(op != 5); // Corre hasta que le den salir
     
     return 0;
 }
