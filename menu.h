@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// Aqui solo tengo los printf de las pantallas de opciones para que el main no quede gigante
 int menuPrincipal(void){
     int op;
     printf("\n---MENU---\n");
@@ -15,7 +16,7 @@ int menuPrincipal(void){
 
 int menuAltas(void){
     int opc;
-    printf("\n---MENU DE ALTAS---\n");
+    printf("\n---MENU ALTAS---\n");
     printf("[1].Dar de alta a una persona\n");
     printf("[2].Dar de alta a varias personas\n");
     printf("[3].Regresar al menú\n");
@@ -26,7 +27,7 @@ int menuAltas(void){
 
 int menuBajas(void){
     int op;
-    printf("\n---MENU DE BAJAS---\n");
+    printf("\n---MENU BAJAS---\n");
     printf("[1].Dar de baja a una persona\n");
     printf("[2].Dar de baja a varias personas\n");
     printf("[3].Dar de baja a todos\n");
@@ -38,7 +39,7 @@ int menuBajas(void){
 
 int menuMostrar(void){
     int op;
-    printf("\n---MENU PARA MOSTRAR---\n");
+    printf("\n---MENU MOSTRAR---\n");
     printf("[1].Todas las personas\n");
     printf("[2].Por carrera\n");
     printf("[3].Por semestre\n");
