@@ -2,130 +2,129 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Funcion simple para imprimir los datos de un nodo sin repetir codigo abajo
 void imprimirNodo(struct Persona *aux) {
     printf("\nNombre: %s", aux->nombre);
     printf("\nEdad: %d", aux->edad);
-    printf("\nGenero: %s", aux->genero);
+    printf("\nGenero: %c", aux->genero);
     printf("\nFecha de Nacimiento: %s", aux->fn);
 
+    // Valido si tiene datos de escuela guardados
     if (aux->ptrAlum != NULL) {
-        printf("\n  [Alumno] Matricula: %s", aux->ptrAlum->matricula);
-        printf(" | Carrera: %s", aux->ptrAlum->carrera);
-        printf(" | Semestre: %s", aux->ptrAlum->semestre);
-        printf(" | Correo: %s", aux->ptrAlum->correo);
+        printf("\nMatricula: %s, Carrera: %s, Semestre: %c, Correo: %s", 
+               aux->ptrAlum->matricula, 
+               aux->ptrAlum->carrera, 
+               aux->ptrAlum->semestre, 
+               aux->ptrAlum->correo);
     } else {
-        printf("\n  [Particular] No es estudiante.");
+        printf("\nNo es estudiante.");
     }
-    printf("\n--------------------------------------------------");
+    printf("\n-------------");
 }
 
-// 1. TODAS: Muestra absolutamente todos los registros
+// Imprime toda la lista usando un puntero auxiliar para avanzar paso a paso
 void MostrarTodas(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     struct Persona *aux = ptr;
-    printf("\n--- TODOS LOS REGISTROS ---\n");
+    printf("\n--- REGISTROS ---\n");
     while (aux != NULL) {
         imprimirNodo(aux);
-        aux = aux->ptrSig;
+        aux = aux->ptrSig; // Paso al siguiente de la lista
     }
 }
 
-// 2. CARRERA: Filtra y muestra solo los alumnos de una carrera específica
+// Revisa los nodos y los imprime solo si coinciden con la carrera que se busca
 void MostrarPorCarrera(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     char busqueda[50];
     int encontrados = 0;
-    printf("Ingrese la carrera a buscar: ");
-    scanf(" ");
-    fgets(busqueda, 50, stdin);
-    busqueda[strcspn(busqueda, "\n")] = '\0';
+    printf("Carrera a buscar: ");
+    scanf("%s", busqueda);
 
     struct Persona *aux = ptr;
-    printf("\n--- ALUMNOS EN LA CARRERA: %s ---\n", busqueda);
+    printf("\n--- ALUMNOS DE %s ---\n", busqueda);
     while (aux != NULL) {
-        // Validamos que sea alumno y que la carrera coincida
         if (aux->ptrAlum != NULL && strcasecmp(aux->ptrAlum->carrera, busqueda) == 0) {
             imprimirNodo(aux);
             encontrados++;
         }
         aux = aux->ptrSig;
     }
-    if (encontrados == 0) printf("No se encontraron alumnos en esa carrera.\n");
+    if (encontrados == 0) printf("No se encontraron alumnos.\n");
 }
 
-// 3. SEMESTRE: Filtra y muestra solo los alumnos de un semestre específico
+// Revisa los nodos y los imprime solo si coinciden con el semestre buscado
 void MostrarPorSemestre(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     char busqueda[20];
     int encontrados = 0;
-    printf("Ingrese el semestre a buscar: ");
+    printf("Semestre a buscar: ");
     scanf("%s", busqueda);
 
     struct Persona *aux = ptr;
-    printf("\n--- ALUMNOS DEL SEMESTRE: %s ---\n", busqueda);
+    printf("\n--- ALUMNOS SEMESTRE %s ---\n", busqueda);
     while (aux != NULL) {
-        if (aux->ptrAlum != NULL && strcasecmp(aux->ptrAlum->semestre, busqueda) == 0) {
+        if (aux->ptrAlum != NULL && strcasecmp(&aux->ptrAlum->semestre, busqueda) == 0) {
             imprimirNodo(aux);
             encontrados++;
         }
         aux = aux->ptrSig;
     }
-    if (encontrados == 0) printf("No se encontraron alumnos en ese semestre.\n");
+    if (encontrados == 0) printf("No se encontraron alumnos.\n");
 }
 
-// 4. CARRERA Y SEMESTRE: Filtro doble
+// Filtro doble usando && para que se tengan que cumplir la carrera y el semestre al mismo tiempo
 void MostrarCarreraYSemestre(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     char car[50], sem[20];
     int encontrados = 0;
     
-    printf("Ingrese la carrera: ");
-    scanf(" ");
-    fgets(car, 50, stdin);
-    car[strcspn(car, "\n")] = '\0';
+    printf("Carrera: ");
+    scanf("%s", car);
     
-    printf("Ingrese el semestre: ");
+    printf("Semestre: ");
     scanf("%s", sem);
 
     struct Persona *aux = ptr;
-    printf("\n--- ALUMNOS DE %s - SEMESTRE %s ---\n", car, sem);
+    printf("\n--- ALUMNOS %s SEMESTRE %s ---\n", car, sem);
     while (aux != NULL) {
-        if (aux->ptrAlum != NULL && strcasecmp(aux->ptrAlum->carrera, car) == 0 && strcasecmp(aux->ptrAlum->semestre, sem) == 0) {
-            imprimirNodo(aux);
-            encontrados++;
+        if (aux->ptrAlum != NULL) {
+            if (strcasecmp(aux->ptrAlum->carrera, car) == 0 && strcasecmp(&aux->ptrAlum->semestre, sem) == 0) {
+                imprimirNodo(aux);
+                encontrados++;
+            }
         }
         aux = aux->ptrSig;
     }
-    if (encontrados == 0) printf("No se encontraron alumnos con ambos criterios.\n");
+    if (encontrados == 0) printf("No se encontraron alumnos.\n");
 }
 
-// 5. NOMBRE: Busca una persona por coincidencia de nombre
 void BuscarPorNombre(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     char busqueda[50];
     int encontrados = 0;
-    printf("Ingrese el nombre exacto a buscar: ");
+    printf("Nombre exacto: ");
     scanf(" ");
     fgets(busqueda, 50, stdin);
     busqueda[strcspn(busqueda, "\n")] = '\0';
 
     struct Persona *aux = ptr;
-    printf("\n--- RESULTADOS PARA EL NOMBRE: %s ---\n", busqueda);
+    printf("\n--- BUSQUEDA: %s ---\n", busqueda);
     while (aux != NULL) {
         if (strcasecmp(aux->nombre, busqueda) == 0) {
             imprimirNodo(aux);
@@ -133,29 +132,29 @@ void BuscarPorNombre(struct Persona *ptr) {
         }
         aux = aux->ptrSig;
     }
-    if (encontrados == 0) printf("No se encontro ninguna persona con ese nombre.\n");
+    if (encontrados == 0) printf("No se encontro.\n");
 }
 
-// 6. MATRICULA: Busca a un alumno por su identificador único
+// Como la matricula es unica, cuando encuentro una coincidencia pongo break para salirme del ciclo y no gastar tiempo
 void BuscarPorMatricula(struct Persona *ptr) {
     if (ptr == NULL) {
-        printf("\nNo hay registros en la estructura.\n");
+        printf("\nNo hay registros.\n");
         return;
     }
     char busqueda[20];
     int encontrados = 0;
-    printf("Ingrese la matricula a buscar: ");
+    printf("Matricula: ");
     scanf("%s", busqueda);
 
     struct Persona *aux = ptr;
-    printf("\n--- RESULTADOS PARA LA MATRICULA: %s ---\n", busqueda);
+    printf("\n--- BUSQUEDA MATRICULA: %s ---\n", busqueda);
     while (aux != NULL) {
         if (aux->ptrAlum != NULL && strcasecmp(aux->ptrAlum->matricula, busqueda) == 0) {
             imprimirNodo(aux);
             encontrados = 1;
-            break; // Como la matrícula es única, podemos terminar al hallarlo
+            break; // Salgo del ciclo porque ya lo encontre
         }
         aux = aux->ptrSig;
     }
-    if (encontrados == 0) printf("No se encontro ningun alumno con esa matricula.\n");
+    if (encontrados == 0) printf("No se encontro.\n");
 }
